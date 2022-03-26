@@ -1,3 +1,7 @@
+// Importar los servicios
+
+const run = require('../services/mongodb.service');
+
 // Controlador de usuarios
 
 const res = require("express/lib/response")
@@ -7,6 +11,7 @@ const res = require("express/lib/response")
  * @param {Request} req 
  * @param {Response} resp 
  */
+
 
 const crearUsuario = (req, res) => {
     res.send("Crear usuario")
@@ -25,13 +30,27 @@ const consultarUsuario = (req, res) => {
 }
 
 const consultarUsuarios = (req, res) => {
-    res.send("Consulta usuarios")
+    let respuesta = {}
+    try {
+        respuesta.ok = true;
+        respuesta.message = "Usuarios consultados correctamente";
+        // Consulta a la base de datos de usuarios
+        run().catch(console.dir);
+        
+        respuesta.info = [{ nombre: "Juan" }];
+        res.send(respuesta);
+    } catch (error) {
+        respuesta.ok = false;
+        respuesta.message = "Ha ocurrido un error consultando los usuarios";
+        respuesta.info = error;
+        res.status(500).send(respuesta);
+    }
 }
 
-module.exports = { 
-    crearUsuario, 
-    modificarUsuario, 
-    eliminarUsuario, 
-    consultarUsuario, 
-    consultarUsuarios 
+module.exports = {
+    crearUsuario,
+    modificarUsuario,
+    eliminarUsuario,
+    consultarUsuario,
+    consultarUsuarios
 }
