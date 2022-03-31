@@ -1,8 +1,14 @@
 // Importación del framework de express
-const express = require('express')
+const express = require('express');
+
+// Agregar configuración al process.env
+require('../config/index.config')
 
 // Creando o instanciando la app de express
 const app = express()
+
+// Aplicar middleware que permite leer los json del body
+app.use(express.json());
 
 //  Integrando el router con la app
 const router = require("./routers/index.router")
